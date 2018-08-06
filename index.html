@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Raleway:300,400,600" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Hangman Game</title>
+</head>
+<body>
+    <div class="container">
+        <div class="menu">
+            <form class="menu__form">
+                <div class="menu__group">
+                    <label for="letters-number" class="menu__label">word's length:</label>
+                    <input type="number" class="menu__input" id="letters-number">
+                </div>
+                <div class="menu__group">
+                    <label for="rounds-number" class="menu__label">round's number:</label>
+                    <input type="number" class="menu__input" id="rounds-number">
+                </div>
+                <div class="menu__group">
+                    <button class="btn btn--menu">start</button>
+                </div>
+            </form>
+        </div>
+        <div class="trigger"><p class="trigger__btn">&bigtriangleup;</p></div>
+        <div class="letters-display">
+            <div class="letters-display__letter">J</div>
+            <div class="letters-display__letter">A</div>
+            <div class="letters-display__letter">V</div>
+            <div class="letters-display__letter">A</div>
+            <div class="letters-display__letter">&nbsp;</div>
+            <div class="letters-display__letter">C</div>
+            <div class="letters-display__letter">R</div>
+            <div class="letters-display__letter">i</div>
+            <div class="letters-display__letter">p</div>
+            <div class="letters-display__letter">T</div>
+        </div>
+        <div class="guess-word">
+                <form class="guess-word__form">
+                    <div class="guess-word__group">
+                        <label for="guess-word" class="guess-word__label">guess the word:</label>
+                        <input type="text" class="guess-word__input" id="guess-word" placeholder="are you ready to guess the word?">
+                    </div>
+                    <div class="guess-word__group">
+                        <button class="btn btn--guess">check it!</button>
+                    </div>
+                </form>
+            </div>
+        <div class="rounds-display">
+            <p class="rounds-display__text">Left rounds: <span id="rounds-counter">7</span></p>
+        </div>
+        <div class="guess-letter">
+            <form class="guess-letter__form">
+                <div class="guess-letter__group">
+                    <label for="guess-letter" class="guess-letter__label">guess letter:</label>
+                    <input type="text" class="guess-letter__input" id="guess-letter">
+                </div>
+                <div class="guess-letter__group">
+                    <button class="btn btn--letter">Check it!</button>
+                </div>
+            </form>
+        </div>
+        <footer class="footer">
+            <p>&copy; 2018 by Oskar Grzelak</p>
+        </footer>
+    </div>
+    
+    
+    <script src="js/script.js"></script>
+</body>
+</html>

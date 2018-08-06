@@ -1,0 +1,237 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    box-sizing: border-box;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.6rem;
+    color: #555;
+    background: -webkit-linear-gradient(to right, #83a4d4, #b6fbff);
+    background: linear-gradient(to right, #83a4d4, #b6fbff);
+    height: 100vh;
+    position: relative;
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80rem;
+    height: 70rem;
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 0 3rem;
+}
+
+.menu {
+    height: 6rem;
+    opacity: 1;
+    text-align: center;
+    margin-bottom: 1rem;
+    transition: all .2s;
+}
+
+.menu__hidden {
+    opacity: 0;
+    height: 0;
+}
+
+.menu__group {
+    display: inline-block;
+    padding: 2rem 0;
+    font-size: 2.5rem;
+    line-height: 2rem;
+    text-transform: uppercase;
+}
+
+.menu__group:not(:last-child) {
+    margin-right: 3rem;
+}
+
+.menu__input {
+    display: inline-block;
+    width: 5rem;
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    border: none;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.25);
+}
+
+.menu__input:focus {
+    outline: none;
+}
+
+.trigger {
+    margin-bottom: 8rem;
+    font-size: 2rem;
+    cursor: default;
+    text-align: center;
+}
+
+.trigger__btn {
+    display: inline-block;
+    font-size: 2rem;
+    font-weight: 600;
+    cursor: default;
+    overflow: hidden;
+    transition: all .2s;
+}
+
+.trigger__btn:hover {
+    color: #83a4d4;
+    transform: scale(1.4);
+}
+
+.btn {
+    text-transform: uppercase;
+    font-family: inherit;
+    color: #555;
+    border: none;
+    background-color: #fff;
+    border-bottom: 1.5px solid transparent;
+    transition: all .2s;
+}
+
+.btn:hover {
+    border-bottom: 1.5px solid #83a4d4;
+    color: #83a4d4;
+}
+
+.btn--menu {
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: .5rem;
+}
+
+.btn--guess {
+    font-size: 3rem;
+}
+
+.btn--letter {
+    font-size: 2.5rem;
+}
+
+.letters-display {
+    font-family: 'Gloria Hallelujah', cursive;
+    text-align: center;
+    margin-bottom: 10rem;
+}
+
+.letters-display__letter {
+    display: inline-block;
+    width: 3rem;
+    height: 3.5rem;
+    font-size: 3rem;
+    line-height: 3rem;
+    padding-bottom: 3px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #555;
+}
+
+.guess-word {
+    text-align: center;
+    margin-bottom: 8rem;
+}
+
+.guess-word__label {
+    display: block;
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: .5rem;
+    margin-bottom: 2rem;
+}
+
+.guess-word__input {
+    display: inline-block;
+    width: 70%;
+    height: 5rem;
+    font-size: 3rem;
+    font-family: inherit;
+    color: inherit;
+    border: none;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.25);
+    text-align: center;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1.4rem;
+}
+
+.guess-word__input:focus {
+    outline: none;
+}
+
+.guess-word__input::placeholder {
+    font-size: 2rem;
+    color: #ccc;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.rounds-display {
+    float: left;
+}
+
+.rounds-display__text {
+    text-transform: uppercase;
+    font-size: 2.5rem;
+}
+
+#rounds-counter {
+    font-weight: 600;
+    font-size: 3.5rem;
+    color: #83a4d4;
+}
+
+.guess-letter {
+    float: right;
+}
+
+.guess-letter__group {
+    display: inline-block;
+}
+
+.guess-letter__label {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+}
+
+.guess-letter__input {
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    font-family: inherit;
+    color: #83a4d4;
+    font-weight: 600;
+    border: none;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.25);
+    width: 5rem;
+    margin-right: 3rem;
+}
+
+.guess-letter__input:focus {
+    outline: none;
+}
+
+.footer {
+    position: absolute;
+    display: block;
+    bottom: 0;
+    left: 0;
+    height: auto;
+    width: 100%;
+    text-align: right;
+}
+
+.footer p {
+    margin: 1rem 3rem;
+    font-size: 1.2rem;
+}

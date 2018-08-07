@@ -75,6 +75,7 @@ body {
     font-size: 2rem;
     cursor: default;
     text-align: center;
+    transition: all .2s;
 }
 
 .trigger__btn {
@@ -83,12 +84,11 @@ body {
     font-weight: 600;
     cursor: default;
     overflow: hidden;
-    transition: all .2s;
+    transition: all .3s;
 }
 
 .trigger__btn:hover {
     color: #83a4d4;
-    transform: scale(1.4);
 }
 
 .btn {
@@ -124,6 +124,7 @@ body {
     font-family: 'Gloria Hallelujah', cursive;
     text-align: center;
     margin-bottom: 10rem;
+    height: 3.5rem;
 }
 
 .letters-display__letter {
@@ -135,6 +136,10 @@ body {
     padding-bottom: 3px;
     text-transform: uppercase;
     border-bottom: 2px solid #555;
+}
+
+.letters-display__letter:not(:last-child) {
+    margin-right: 2rem;
 }
 
 .guess-word {

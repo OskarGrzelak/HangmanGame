@@ -2,10 +2,11 @@
 
 const triggerButton = document.querySelector('.trigger__btn');
 const menu = document.querySelector('.menu');
-const start = document.querySelector('.btn--menu');
+const startButton = document.querySelector('.btn--menu');
 const trigger = document.querySelector('.trigger');
 const lettersDisplay = document.querySelector('.letters-display');
 const roundsCounter = document.querySelector('#rounds-counter');
+const chceckLetterButton = document.querySelector('.btn--letter');
 
 // menu
 
@@ -34,7 +35,7 @@ class Game {
     }
 
     setHiddenWord() {
-        this.hiddenWord = 'javascript';
+        this.hiddenWord = 'javascript'.toUpperCase();
     }
 };
 
@@ -42,6 +43,7 @@ class Game {
 
 const getWordsLength = () => document.querySelector('#letters-number').value;
 const getRoundsNumber = () => document.querySelector('#rounds-number').value;
+const getLetter = () => document.querySelector('#guess-letter').value;
 
 const clearLettersDisplay = () => lettersDisplay.innerHTML = '';
 
@@ -54,6 +56,15 @@ const displayHiddenWord = word => {
 
 const displayRoundsCounter = num => {
     roundsCounter.innerHTML = num;
+};
+
+const displayLetter = letter => {
+    const arr = Array.from(document.querySelector('.letters-display').children);
+    arr.forEach((el, i) => {
+        if (game.hiddenWord[i] === letter) {
+            el.innerHTML = letter;
+        };
+    });
 };
 
 // control
@@ -72,7 +83,19 @@ const initGame = () => {
     displayRoundsCounter(game.roundsNumber);
 };
 
-start.addEventListener('click', e => {
+const chceckLetter = (letter) => {
+    return game.hiddenWord.includes(letter);
+}
+
+startButton.addEventListener('click', e => {
     e.preventDefault();
     initGame();
+});
+
+chceckLetterButton.addEventListener('click', e => {
+    e.preventDefault();
+    const letter = getLetter().toUpperCase();
+    if(chceckLetter(letter)) {
+        displayLetter(letter);
+    }
 });

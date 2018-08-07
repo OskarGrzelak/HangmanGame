@@ -13,11 +13,11 @@ const chceckLetterButton = document.querySelector('.btn--letter');
 triggerButton.addEventListener('click', e => {
     if(!menu.classList.contains('menu__hidden')) {
         menu.classList.add('menu__hidden');
-        trigger.style.marginBottom = '14rem';
+        trigger.style.marginBottom = '7rem';
         triggerButton.style.transform = 'rotate(180deg)';
     } else {
         menu.classList.remove('menu__hidden');
-        trigger.style.marginBottom = '8rem';
+        trigger.style.marginBottom = '2rem';
         triggerButton.style.transform = 'rotate(0)';
     }
 });
@@ -90,6 +90,9 @@ const chceckLetter = (letter) => {
 startButton.addEventListener('click', e => {
     e.preventDefault();
     initGame();
+    menu.classList.add('menu__hidden');
+    trigger.style.marginBottom = '7rem';
+    triggerButton.style.transform = 'rotate(180deg)';
 });
 
 chceckLetterButton.addEventListener('click', e => {

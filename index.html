@@ -26,7 +26,31 @@
                 </div>
             </form>
         </div>
+
         <div class="trigger"><p class="trigger__btn">&bigtriangleup;</p></div>
+
+        <div class="box">
+            <div class="rounds-display">
+                <p class="rounds-display__text">Left rounds: <span id="rounds-counter">&nbsp;</span></p>
+            </div>
+
+            <div class="guess-letter">
+                <form class="guess-letter__form">
+                    <div class="guess-letter__group">
+                        <label for="guess-letter" class="guess-letter__label">guess letter:</label>
+                        <input type="text" class="guess-letter__input" id="guess-letter">
+                    </div>
+                    <div class="guess-letter__group">
+                        <button class="btn btn--letter">Check it!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="message">
+            <p class="message__text">Hidden word contains letter: <span class="message__letter">J</span></p>
+        </div>
+
         <div class="letters-display">
             <!-- <div class="letters-display__letter">J</div>
             <div class="letters-display__letter">A</div>
@@ -39,31 +63,24 @@
             <div class="letters-display__letter">p</div>
             <div class="letters-display__letter">T</div> -->
         </div>
-        <div class="guess-word">
-                <form class="guess-word__form">
-                    <div class="guess-word__group">
-                        <label for="guess-word" class="guess-word__label">guess the word:</label>
-                        <input type="text" class="guess-word__input" id="guess-word" placeholder="are you ready to guess the word?">
-                    </div>
-                    <div class="guess-word__group">
-                        <button class="btn btn--guess">check it!</button>
-                    </div>
-                </form>
-            </div>
-        <div class="rounds-display">
-            <p class="rounds-display__text">Left rounds: <span id="rounds-counter">&nbsp;</span></p>
+
+        <div class="checked">
+            <p class="checked__text">You have already checked letters:</p>
+            <p class="checked__letters"></p>
         </div>
-        <div class="guess-letter">
-            <form class="guess-letter__form">
-                <div class="guess-letter__group">
-                    <label for="guess-letter" class="guess-letter__label">guess letter:</label>
-                    <input type="text" class="guess-letter__input" id="guess-letter">
+
+        <div class="guess-word">
+            <form class="guess-word__form">
+                <div class="guess-word__group">
+                    <label for="guess-word" class="guess-word__label">guess the word:</label>
+                    <input type="text" class="guess-word__input" id="guess-word" placeholder="are you ready to guess the word?">
                 </div>
-                <div class="guess-letter__group">
-                    <button class="btn btn--letter">Check it!</button>
+                <div class="guess-word__group">
+                    <button class="btn btn--guess">check it!</button>
                 </div>
             </form>
         </div>
+        
         <footer class="footer">
             <p>&copy; 2018 by Oskar Grzelak</p>
         </footer>

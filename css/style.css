@@ -41,7 +41,7 @@ body {
 
 .menu__hidden {
     opacity: 0;
-    height: 0;
+    height: 1rem;
 }
 
 .menu__group {
@@ -71,10 +71,11 @@ body {
 }
 
 .trigger {
-    margin-bottom: 8rem;
+    margin-bottom: 1rem;
     font-size: 2rem;
     cursor: default;
     text-align: center;
+    border-bottom: 1px solid #ccc;
     transition: all .2s;
 }
 
@@ -113,17 +114,54 @@ body {
 }
 
 .btn--guess {
-    font-size: 3rem;
+    font-size: 2.5rem;
 }
 
 .btn--letter {
     font-size: 2.5rem;
 }
 
+.box {
+    position: relative;
+    height: 4rem;
+    width: 100%;
+    margin-bottom: 4rem;
+}
+
+.message {
+    width: 70%;
+    height: 5rem;
+    margin: 0 auto 4rem auto;
+    text-align: center;
+    border: 1px solid transparent;
+    border-radius: 6px;
+}
+
+.message--correct {
+    border: 1px solid green;
+}
+
+.message--incorrect {
+    border: 1px solid red;
+}
+
+.message__text {
+    text-transform: uppercase;
+    padding: .5rem 0;
+}
+
+.message__letter {
+    display: inline-block;
+    color: #83a4d4;
+    font-weight: 600;
+    font-size: 3rem;
+    transform: translateY(.5rem);
+}
+
 .letters-display {
     font-family: 'Gloria Hallelujah', cursive;
     text-align: center;
-    margin-bottom: 10rem;
+    margin-bottom: 2rem;
     height: 3.5rem;
 }
 
@@ -142,15 +180,32 @@ body {
     margin-right: 2rem;
 }
 
+.checked {
+    width: 70%;
+    height: 5rem;
+    margin: 0 auto 8rem auto;
+    border: 1px solid #555;
+    border-radius: 6px;
+    padding: .5rem 2rem;
+}
+
+.checked__text {
+    font-size: 1.4rem;
+}
+
+.checked__letters {
+    text-transform: uppercase;
+}
+
 .guess-word {
     text-align: center;
-    margin-bottom: 8rem;
+    margin-bottom: 6rem;
 }
 
 .guess-word__label {
     display: block;
     text-transform: uppercase;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 600;
     letter-spacing: .5rem;
     margin-bottom: 2rem;

@@ -15,11 +15,11 @@
             <form class="menu__form">
                 <div class="menu__group">
                     <label for="letters-number" class="menu__label">word's length:</label>
-                    <input type="number" class="menu__input" id="letters-number">
+                    <input type="number" class="menu__input" id="letters-number" min="3" max="12" value="7">
                 </div>
                 <div class="menu__group">
                     <label for="rounds-number" class="menu__label">round's number:</label>
-                    <input type="number" class="menu__input" id="rounds-number">
+                    <input type="number" class="menu__input" id="rounds-number" min="3" max="10" value="7">
                 </div>
                 <div class="menu__group">
                     <button class="btn btn--menu">start</button>
@@ -38,7 +38,7 @@
                 <form class="guess-letter__form">
                     <div class="guess-letter__group">
                         <label for="guess-letter" class="guess-letter__label">guess letter:</label>
-                        <input type="text" class="guess-letter__input" id="guess-letter">
+                        <input type="text" class="guess-letter__input" id="guess-letter" maxlength="1">
                     </div>
                     <div class="guess-letter__group">
                         <button class="btn btn--letter">Check it!</button>
@@ -47,22 +47,9 @@
             </div>
         </div>
 
-        <div class="message">
-            <p class="message__text">Hidden word contains letter: <span class="message__letter">J</span></p>
-        </div>
+        <div class="message"></div>
 
-        <div class="letters-display">
-            <!-- <div class="letters-display__letter">J</div>
-            <div class="letters-display__letter">A</div>
-            <div class="letters-display__letter">V</div>
-            <div class="letters-display__letter">A</div>
-            <div class="letters-display__letter">&nbsp;</div>
-            <div class="letters-display__letter">C</div>
-            <div class="letters-display__letter">R</div>
-            <div class="letters-display__letter">i</div>
-            <div class="letters-display__letter">p</div>
-            <div class="letters-display__letter">T</div> -->
-        </div>
+        <div class="letters-display"></div>
 
         <div class="checked">
             <p class="checked__text">You have already checked letters:</p>

@@ -11,6 +11,10 @@ const checkWordButton = document.querySelector('.btn--guess');
 const message = document.querySelector('.message');
 const checkedLetters = document.querySelector('.checked__letters');
 const inputs = document.querySelectorAll('input');
+const box = document.querySelector('.box');
+const checked = document.querySelector('.checked');
+const guessWord = document.querySelector('.guess-word');
+const result = document.querySelector('.result');
 
 // menu
 
@@ -32,6 +36,7 @@ class Game {
 
     constructor() {
         this.checked = [];
+        this.isPlayed = false;
     }
 
     setRoundsNumber(num) {
@@ -109,9 +114,11 @@ const displayMessage = (state, str) => {
             message.classList.remove('message--incorrect');
             break;
         case 'correctWord':
-            message.innerHTML = `<p class="message__text">You won! <span class="message__letter">${str}</span> was the hidden word</p>`;
+            message.innerHTML = `<p class="message__text"><span class="message__letter">${str}</span> was the hidden word</p>`;
             message.classList.remove('message--incorrect');
             message.classList.add('message--correct');
+            result.innerHTML = `<p class="result__text result__text--green">Congrats, you won!</p>`;
+            result.classList.add('show');
             break;
         case 'incorrectWord':
             message.innerHTML = `<p class="message__text">Oh no! <span class="message__letter">${str}</span> was not the hidden word</p>`;
@@ -122,6 +129,10 @@ const displayMessage = (state, str) => {
             message.innerHTML = `<p class="message__text"><span class="message__letter">${str}</span> has a different length than the hidden word</p>`;
             message.classList.remove('message--incorrect');
             message.classList.remove('message--correct');
+            break;
+        case 'lost':
+            result.innerHTML = `<p class="result__text result__text--red">Sorry, you lost!</p>`;
+            result.classList.add('show');
             break;
     };
 };
@@ -145,14 +156,32 @@ const initGame = () => {
     game.setRoundsNumber(roundsNumber);
     game.setWordsLength(wordsLength);
     game.setHiddenWord();
+    box.classList.add('show');
+    checked.classList.add('show');
+    guessWord.classList.add('show');
+    result.classList.remove('show');
     clearLettersDisplay();
     displayHiddenWord(game.hiddenWord);
     displayRoundsCounter(game.roundsNumber);
+    game.isPlayed = true;
 };
 
 const checkLetter = (letter) => {
     return game.hiddenWord.includes(letter);
-}
+};
+
+const checkResult = () => {
+    if(game.roundsNumber <= 0) {
+        game.isPlayed = false;
+        box.classList.remove('show');
+        checked.classList.remove('show');
+        guessWord.classList.remove('show');
+        displayMessage('lost');
+        menu.classList.remove('menu__hidden');
+        trigger.style.marginBottom = '2rem';
+        triggerButton.style.transform = 'rotate(0)';
+    };
+};
 
 startButton.addEventListener('click', e => {
     e.preventDefault();
@@ -177,6 +206,7 @@ chceckLetterButton.addEventListener('click', e => {
                 game.roundsNumber -= 1;
                 displayRoundsCounter(game.roundsNumber);
                 state = 'incorrectLetter';
+                checkResult();
             };
             displayCheckedLetters(letter);
             game.checked.push(letter);
@@ -194,6 +224,10 @@ checkWordButton.addEventListener('click', e => {
         if(word.length === game.hiddenWord.length) {
             if(word === game.hiddenWord) {
                 displayCorrectWord();
+                game.isPlayed = false;
+                box.classList.remove('show');
+                checked.classList.remove('show');
+                guessWord.classList.remove('show');
                 menu.classList.remove('menu__hidden');
                 trigger.style.marginBottom = '2rem';
                 triggerButton.style.transform = 'rotate(0)';
@@ -202,6 +236,7 @@ checkWordButton.addEventListener('click', e => {
                 game.roundsNumber -= 1;
                 displayRoundsCounter(game.roundsNumber);
                 state = 'incorrectWord';
+                checkResult();
             };
         };
         displayMessage(state, word);

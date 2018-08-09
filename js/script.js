@@ -47,8 +47,8 @@ class Game {
         this.wordsLength = length;
     }
 
-    setHiddenWord() {
-        this.hiddenWord = 'javascript'.toUpperCase();
+    setHiddenWord(word) {
+        this.hiddenWord = word.toUpperCase();
     }
 };
 
@@ -58,6 +58,20 @@ const getWordsLength = () => document.querySelector('#letters-number').value;
 const getRoundsNumber = () => document.querySelector('#rounds-number').value;
 const getLetter = () => document.querySelector('#guess-letter').value;
 const getWord = () => document.querySelector('#guess-word').value;
+const getHiddenWord = async (q) => {
+    try {
+        let mask = '';
+        for(let i = 0; i < q; i++){
+            mask += '?';
+        };
+        const res = await fetch(`https://cors-anywhere.herokuapp.com/https://api.datamuse.com/words?sp=${mask}`);
+        const words = await res.json();
+        const hiddenWord = words[Math.floor(Math.random()*100)].word;
+        return hiddenWord;
+    } catch(err) {
+        console.log(err);
+    };
+};
 
 const clearLettersDisplay = () => lettersDisplay.innerHTML = '';
 const clearInputs = () => inputs.forEach(el => el.value = '');
@@ -145,9 +159,9 @@ const displayCheckedLetters = letter => {
 
 const game = new Game();
 
-const initGame = () => {
+const initGame = async () => {
     const roundsNumber = getRoundsNumber();
-    const wordsLength = getWordsLength();
+    const wordsLength = getWordsLength(); 
 
     clearInputs();
     clearMessage();
@@ -155,7 +169,8 @@ const initGame = () => {
 
     game.setRoundsNumber(roundsNumber);
     game.setWordsLength(wordsLength);
-    game.setHiddenWord();
+    const hiddenWord = await getHiddenWord(wordsLength);
+    game.setHiddenWord(hiddenWord);
     box.classList.add('show');
     checked.classList.add('show');
     guessWord.classList.add('show');

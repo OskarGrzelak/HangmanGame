@@ -131,8 +131,6 @@ const displayMessage = (state, str) => {
             message.innerHTML = `<p class="message__text"><span class="message__letter">${str}</span> was the hidden word</p>`;
             message.classList.remove('message--incorrect');
             message.classList.add('message--correct');
-            result.innerHTML = `<p class="result__text result__text--green">Congrats, you won!</p>`;
-            result.classList.add('show');
             break;
         case 'incorrectWord':
             message.innerHTML = `<p class="message__text">Oh no! <span class="message__letter">${str}</span> was not the hidden word</p>`;
@@ -144,10 +142,16 @@ const displayMessage = (state, str) => {
             message.classList.remove('message--incorrect');
             message.classList.remove('message--correct');
             break;
-        case 'lost':
-            result.innerHTML = `<p class="result__text result__text--red">Sorry, you lost!</p>`;
-            result.classList.add('show');
-            break;
+    };
+};
+
+const displayResult = str => {
+    if (str === 'won') {
+        result.innerHTML = `<p class="result__text result__text--green">Congrats, you won!</p>`;
+        result.classList.add('show');
+    } else if (str === 'lost') {
+        result.innerHTML = `<p class="result__text result__text--red">Sorry, you lost!</p>`;
+        result.classList.add('show');
     };
 };
 
@@ -191,7 +195,7 @@ const checkResult = () => {
         box.classList.remove('show');
         checked.classList.remove('show');
         guessWord.classList.remove('show');
-        displayMessage('lost');
+        displayResult('lost');
         menu.classList.remove('menu__hidden');
         trigger.style.marginBottom = '2rem';
         triggerButton.style.transform = 'rotate(0)';
@@ -217,6 +221,23 @@ chceckLetterButton.addEventListener('click', e => {
             if(isCorrect) {
                 displayLetter(letter);
                 state = 'correctLetter';
+                const arr = Array.from(document.querySelector('.letters-display').children);
+                let c = 0;
+                arr.forEach(el => {
+                    if (el.innerHTML !== '&nbsp;') {
+                        c++;
+                    };
+                });
+                if (c === arr.length) {
+                    displayResult('won');
+                    game.isPlayed = false;
+                    box.classList.remove('show');
+                    checked.classList.remove('show');
+                    guessWord.classList.remove('show');
+                    menu.classList.remove('menu__hidden');
+                    trigger.style.marginBottom = '2rem';
+                    triggerButton.style.transform = 'rotate(0)';
+                }
             } else {
                 game.roundsNumber -= 1;
                 displayRoundsCounter(game.roundsNumber);
@@ -247,6 +268,7 @@ checkWordButton.addEventListener('click', e => {
                 trigger.style.marginBottom = '2rem';
                 triggerButton.style.transform = 'rotate(0)';
                 state = 'correctWord';
+                displayResult('won');
             } else {
                 game.roundsNumber -= 1;
                 displayRoundsCounter(game.roundsNumber);

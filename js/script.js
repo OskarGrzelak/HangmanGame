@@ -16,20 +16,6 @@ const checked = document.querySelector('.checked');
 const guessWord = document.querySelector('.guess-word');
 const result = document.querySelector('.result');
 
-// menu
-
-triggerButton.addEventListener('click', e => {
-    if(!menu.classList.contains('menu__hidden')) {
-        menu.classList.add('menu__hidden');
-        trigger.style.marginBottom = '7rem';
-        triggerButton.style.transform = 'rotate(180deg)';
-    } else {
-        menu.classList.remove('menu__hidden');
-        trigger.style.marginBottom = '2rem';
-        triggerButton.style.transform = 'rotate(0)';
-    }
-});
-
 // game
 
 class Game {
@@ -54,135 +40,154 @@ class Game {
 
 // game view
 
-const getWordsLength = () => document.querySelector('#letters-number').value;
-const getRoundsNumber = () => document.querySelector('#rounds-number').value;
-const getLetter = () => document.querySelector('#guess-letter').value;
-const getWord = () => document.querySelector('#guess-word').value;
-const getHiddenWord = async (q) => {
-    try {
-        let mask = '';
-        for(let i = 0; i < q; i++){
-            mask += '?';
+const gameView = {
+    getWordsLength() { return document.querySelector('#letters-number').value; },
+    getRoundsNumber() { return document.querySelector('#rounds-number').value; },
+    getLetter() { return document.querySelector('#guess-letter').value; },
+    getWord() { return document.querySelector('#guess-word').value; },
+    async getHiddenWord(q) {
+        try {
+            let mask = '';
+            for(let i = 0; i < q; i++){
+                mask += '?';
+            };
+            const res = await fetch(`https://cors-anywhere.herokuapp.com/https://api.datamuse.com/words?sp=${mask}`);
+            const words = await res.json();
+            const hiddenWord = words[Math.floor(Math.random()*100)].word;
+            return hiddenWord;
+        } catch(err) {
+            console.log(err);
         };
-        const res = await fetch(`https://cors-anywhere.herokuapp.com/https://api.datamuse.com/words?sp=${mask}`);
-        const words = await res.json();
-        const hiddenWord = words[Math.floor(Math.random()*100)].word;
-        return hiddenWord;
-    } catch(err) {
-        console.log(err);
-    };
-};
-
-const clearLettersDisplay = () => lettersDisplay.innerHTML = '';
-const clearInputs = () => inputs.forEach(el => el.value = '');
-const clearMessage = () => {
-    message.innerHTML = '';
-    message.classList.remove('message--correct');
-    message.classList.remove('message--incorrect');
-}
-const clearCheckedLetters = () => {
-    game.checked = [];
-    checkedLetters.innerHTML = '';
-};
-
-const displayHiddenWord = word => {
-    const markup = `<div class="letters-display__letter">&nbsp;</div>`;
-    for(let i = 0; i < word.length; i++) {
-        lettersDisplay.insertAdjacentHTML('beforeend', markup);
-    };
-};
-
-const displayRoundsCounter = num => {
-    roundsCounter.innerHTML = num;
-};
-
-const displayLetter = letter => {
-    const arr = Array.from(document.querySelector('.letters-display').children);
-    arr.forEach((el, i) => {
-        if (game.hiddenWord[i] === letter) {
-            el.innerHTML = letter;
+    },
+    clearLettersDisplay() { lettersDisplay.innerHTML = ''; },
+    clearInputs() { inputs.forEach(el => el.value = ''); },
+    clearMessage() {
+        message.innerHTML = '';
+        message.classList.remove('message--correct');
+        message.classList.remove('message--incorrect');
+    },
+    clearCheckedLetters() {
+        game.checked = [];
+        checkedLetters.innerHTML = '';
+    },
+    displayHiddenWord(word) {
+        const markup = `<div class="letters-display__letter">&nbsp;</div>`;
+        for(let i = 0; i < word.length; i++) {
+            lettersDisplay.insertAdjacentHTML('beforeend', markup);
         };
-    });
-};
-
-const displayCorrectWord = () => {
-    const arr = Array.from(document.querySelector('.letters-display').children);
-    arr.forEach((el, i) => el.innerHTML = game.hiddenWord[i]);
-};
-
-const displayMessage = (state, str) => {
-    switch(state) {
-        case 'correctLetter':
-            message.innerHTML = `<p class="message__text">Hidden word contains letter: <span class="message__letter">${str}</span></p>`;
-            message.classList.remove('message--incorrect');
-            message.classList.add('message--correct');
-            break;
-        case 'incorrectLetter':
-            message.innerHTML = `<p class="message__text">Hidden word does not contain letter: <span class="message__letter">${str}</span></p>`;
-            message.classList.remove('message--correct');
-            message.classList.add('message--incorrect');
-            break;
-        case 'checkedLetter':
-            message.innerHTML = `<p class="message__text">You have already checked letter: <span class="message__letter">${str}</span></p>`;
-            message.classList.remove('message--correct');
-            message.classList.remove('message--incorrect');
-            break;
-        case 'correctWord':
-            message.innerHTML = `<p class="message__text"><span class="message__letter">${str}</span> was the hidden word</p>`;
-            message.classList.remove('message--incorrect');
-            message.classList.add('message--correct');
-            break;
-        case 'incorrectWord':
-            message.innerHTML = `<p class="message__text">Oh no! <span class="message__letter">${str}</span> was not the hidden word</p>`;
-            message.classList.remove('message--correct');
-            message.classList.add('message--incorrect');
-            break;
-        case 'wrongLength':
-            message.innerHTML = `<p class="message__text"><span class="message__letter">${str}</span> has a different length than the hidden word</p>`;
-            message.classList.remove('message--incorrect');
-            message.classList.remove('message--correct');
-            break;
-    };
-};
-
-const displayResult = str => {
-    if (str === 'won') {
-        result.innerHTML = `<p class="result__text result__text--green">Congrats, you won!</p>`;
-        result.classList.add('show');
-    } else if (str === 'lost') {
-        result.innerHTML = `<p class="result__text result__text--red">Sorry, you lost!</p>`;
-        result.classList.add('show');
-    };
-};
-
-const displayCheckedLetters = letter => {
-    checkedLetters.innerHTML += `${letter} `;
+    },
+    displayRoundsCounter(num) { roundsCounter.innerHTML = num; },
+    displayLetter(letter, word) {
+        const arr = Array.from(document.querySelector('.letters-display').children);
+        arr.forEach((el, i) => {
+            if (word[i] === letter) {
+                el.innerHTML = letter;
+            };
+        });
+    },
+    displayCorrectWord(word) {
+        const arr = Array.from(document.querySelector('.letters-display').children);
+        arr.forEach((el, i) => el.innerHTML = word[i]);
+    },
+    displayMessage(state, str) {
+        switch(state) {
+            case 'correctLetter':
+                message.innerHTML = `<p class="message__text">Hidden word contains letter: <span class="message__letter">${str}</span></p>`;
+                message.classList.remove('message--incorrect');
+                message.classList.add('message--correct');
+                break;
+            case 'incorrectLetter':
+                message.innerHTML = `<p class="message__text">Hidden word does not contain letter: <span class="message__letter">${str}</span></p>`;
+                message.classList.remove('message--correct');
+                message.classList.add('message--incorrect');
+                break;
+            case 'checkedLetter':
+                message.innerHTML = `<p class="message__text">You have already checked letter: <span class="message__letter">${str}</span></p>`;
+                message.classList.remove('message--correct');
+                message.classList.remove('message--incorrect');
+                break;
+            case 'correctWord':
+                message.innerHTML = `<p class="message__text"><span class="message__letter">${str}</span> was the hidden word</p>`;
+                message.classList.remove('message--incorrect');
+                message.classList.add('message--correct');
+                break;
+            case 'incorrectWord':
+                message.innerHTML = `<p class="message__text">Oh no! <span class="message__letter">${str}</span> was not the hidden word</p>`;
+                message.classList.remove('message--correct');
+                message.classList.add('message--incorrect');
+                break;
+            case 'wrongLength':
+                message.innerHTML = `<p class="message__text"><span class="message__letter">${str}</span> has a different length than the hidden word</p>`;
+                message.classList.remove('message--incorrect');
+                message.classList.remove('message--correct');
+                break;
+        };
+    },
+    displayResult(str) {
+        if (str === 'won') {
+            result.innerHTML = `<p class="result__text result__text--green">Congrats, you won!</p>`;
+            result.classList.add('show');
+        } else if (str === 'lost') {
+            result.innerHTML = `<p class="result__text result__text--red">Sorry, you lost!</p>`;
+            result.classList.add('show');
+        };
+    },
+    displayCheckedLetters(letter) {
+        checkedLetters.innerHTML += `${letter} `;
+    },
+    showMenu() {
+        menu.classList.remove('menu__hidden');
+        trigger.style.marginBottom = '2rem';
+        triggerButton.style.transform = 'rotate(0)';
+    },
+    hideMenu() {
+        menu.classList.add('menu__hidden');
+        trigger.style.marginBottom = '7rem';
+        triggerButton.style.transform = 'rotate(180deg)';
+    },
+    showGameInterface() {
+        box.classList.add('show');
+        checked.classList.add('show');
+        guessWord.classList.add('show');
+    },
+    hideGameInterface() {
+        box.classList.remove('show');
+        checked.classList.remove('show');
+        guessWord.classList.remove('show');
+    }
 };
 
 // control
 
+// menu
+
+triggerButton.addEventListener('click', () => !menu.classList.contains('menu__hidden') ? gameView.hideMenu() : gameView.showMenu());
+
+// game
+
 const game = new Game();
 
 const initGame = async () => {
-    const roundsNumber = getRoundsNumber();
-    const wordsLength = getWordsLength(); 
 
-    clearInputs();
-    clearMessage();
-    clearCheckedLetters();
-
-    game.setRoundsNumber(roundsNumber);
-    game.setWordsLength(wordsLength);
-    const hiddenWord = await getHiddenWord(wordsLength);
-    game.setHiddenWord(hiddenWord);
-    box.classList.add('show');
-    checked.classList.add('show');
-    guessWord.classList.add('show');
-    result.classList.remove('show');
-    clearLettersDisplay();
-    displayHiddenWord(game.hiddenWord);
-    displayRoundsCounter(game.roundsNumber);
+    // Setting game's parameters
+    game.setRoundsNumber(gameView.getRoundsNumber());
+    game.setWordsLength(gameView.getWordsLength());
+    game.setHiddenWord(await gameView.getHiddenWord(game.wordsLength));
     game.isPlayed = true;
+
+    // Preparing UI 
+    
+    // 1. clearing UI
+    gameView.clearInputs();
+    gameView.clearMessage();
+    gameView.clearCheckedLetters();
+    gameView.clearLettersDisplay();
+    result.classList.remove('show');
+
+    // 2. displaying new UI
+    gameView.displayHiddenWord(game.hiddenWord);
+    gameView.displayRoundsCounter(game.roundsNumber);
+    gameView.showGameInterface();
 };
 
 const checkLetter = (letter) => {
@@ -195,31 +200,27 @@ const checkResult = () => {
         box.classList.remove('show');
         checked.classList.remove('show');
         guessWord.classList.remove('show');
-        displayResult('lost');
-        menu.classList.remove('menu__hidden');
-        trigger.style.marginBottom = '2rem';
-        triggerButton.style.transform = 'rotate(0)';
+        gameView.displayResult('lost');
+        gameView.showMenu();
     };
 };
 
 startButton.addEventListener('click', e => {
     e.preventDefault();
     initGame();
-    menu.classList.add('menu__hidden');
-    trigger.style.marginBottom = '7rem';
-    triggerButton.style.transform = 'rotate(180deg)';
+    gameView.hideMenu();
 });
 
 chceckLetterButton.addEventListener('click', e => {
     e.preventDefault();
     let state = 'checkedLetter';
-    const letter = getLetter().toUpperCase();
+    const letter = gameView.getLetter().toUpperCase();
     if(letter !== '') {
-        clearInputs();
+        gameView.clearInputs();
         if(!game.checked.includes(letter)) {
             const isCorrect = checkLetter(letter);
             if(isCorrect) {
-                displayLetter(letter);
+                gameView.displayLetter(letter, game.hiddenWord);
                 state = 'correctLetter';
                 const arr = Array.from(document.querySelector('.letters-display').children);
                 let c = 0;
@@ -229,53 +230,45 @@ chceckLetterButton.addEventListener('click', e => {
                     };
                 });
                 if (c === arr.length) {
-                    displayResult('won');
+                    gameView.displayResult('won');
                     game.isPlayed = false;
-                    box.classList.remove('show');
-                    checked.classList.remove('show');
-                    guessWord.classList.remove('show');
-                    menu.classList.remove('menu__hidden');
-                    trigger.style.marginBottom = '2rem';
-                    triggerButton.style.transform = 'rotate(0)';
+                    gameView.hideGameInterface();
+                    gameView.showMenu();
                 }
             } else {
                 game.roundsNumber -= 1;
-                displayRoundsCounter(game.roundsNumber);
+                gameView.displayRoundsCounter(game.roundsNumber);
                 state = 'incorrectLetter';
                 checkResult();
             };
-            displayCheckedLetters(letter);
+            gameView.displayCheckedLetters(letter);
             game.checked.push(letter);
         };
-        displayMessage(state, letter);
+        gameView.displayMessage(state, letter);
     };
 });
 
 checkWordButton.addEventListener('click', e => {
     e.preventDefault();
     let state = 'wrongLength';
-    const word = getWord().toUpperCase();
+    const word = gameView.getWord().toUpperCase();
     if(word !=='') {
-        clearInputs();
+        gameView.clearInputs();
         if(word.length === game.hiddenWord.length) {
             if(word === game.hiddenWord) {
-                displayCorrectWord();
+                gameView.displayCorrectWord(game.hiddenWord);
                 game.isPlayed = false;
-                box.classList.remove('show');
-                checked.classList.remove('show');
-                guessWord.classList.remove('show');
-                menu.classList.remove('menu__hidden');
-                trigger.style.marginBottom = '2rem';
-                triggerButton.style.transform = 'rotate(0)';
+                gameView.hideGameInterface();
+                gameView.showMenu();
                 state = 'correctWord';
-                displayResult('won');
+                gameView.displayResult('won');
             } else {
                 game.roundsNumber -= 1;
-                displayRoundsCounter(game.roundsNumber);
+                gameView.displayRoundsCounter(game.roundsNumber);
                 state = 'incorrectWord';
                 checkResult();
             };
         };
-        displayMessage(state, word);
+        gameView.displayMessage(state, word);
     };
 });

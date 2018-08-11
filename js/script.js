@@ -22,7 +22,6 @@ class Game {
 
     constructor() {
         this.checked = [];
-        this.isPlayed = false;
     }
 
     setRoundsNumber(num) {
@@ -173,7 +172,6 @@ const initGame = async () => {
     game.setRoundsNumber(gameView.getRoundsNumber());
     game.setWordsLength(gameView.getWordsLength());
     game.setHiddenWord(await gameView.getHiddenWord(game.wordsLength));
-    game.isPlayed = true;
 
     // Preparing UI 
     
@@ -191,17 +189,54 @@ const initGame = async () => {
 };
 
 const checkLetter = (letter) => {
-    return game.hiddenWord.includes(letter);
+    let state = 'checkedLetter';
+    if(!game.checked.includes(letter)) {
+        if (game.hiddenWord.includes(letter)) {
+            gameView.displayLetter(letter, game.hiddenWord);
+            state = 'correctLetter';
+        } else {
+            game.roundsNumber -= 1;
+            gameView.displayRoundsCounter(game.roundsNumber);
+            state = 'incorrectLetter';
+        };
+        gameView.displayCheckedLetters(letter);
+        game.checked.push(letter);
+    };
+    return state;
 };
 
-const checkResult = () => {
+const checkWord = (word) => {
+    let state = 'wrongLength';
+    if(word.length === game.hiddenWord.length) {
+        if(word === game.hiddenWord) {
+            gameView.displayCorrectWord(game.hiddenWord);
+            state = 'correctWord';
+        } else {
+            game.roundsNumber -= 1;
+            gameView.displayRoundsCounter(game.roundsNumber);
+            state = 'incorrectWord';
+        };
+    };
+    return state;
+};
+
+const checkIfEnd = () => {
     if(game.roundsNumber <= 0) {
-        game.isPlayed = false;
-        box.classList.remove('show');
-        checked.classList.remove('show');
-        guessWord.classList.remove('show');
-        gameView.displayResult('lost');
+        gameView.hideGameInterface();
         gameView.showMenu();
+        return 'lost';
+    };
+    const arr = Array.from(document.querySelector('.letters-display').children);
+    let c = 0;
+    arr.forEach(el => {
+        if (el.innerHTML !== '&nbsp;') {
+            c++;
+        };
+    });
+    if (c === arr.length) {
+        gameView.hideGameInterface();
+        gameView.showMenu();
+        return 'won';
     };
 };
 
@@ -213,62 +248,48 @@ startButton.addEventListener('click', e => {
 
 chceckLetterButton.addEventListener('click', e => {
     e.preventDefault();
-    let state = 'checkedLetter';
+
+    // get input letter
     const letter = gameView.getLetter().toUpperCase();
+
+    // check if input is a letter
     if(letter !== '') {
+
+        // clear input
         gameView.clearInputs();
-        if(!game.checked.includes(letter)) {
-            const isCorrect = checkLetter(letter);
-            if(isCorrect) {
-                gameView.displayLetter(letter, game.hiddenWord);
-                state = 'correctLetter';
-                const arr = Array.from(document.querySelector('.letters-display').children);
-                let c = 0;
-                arr.forEach(el => {
-                    if (el.innerHTML !== '&nbsp;') {
-                        c++;
-                    };
-                });
-                if (c === arr.length) {
-                    gameView.displayResult('won');
-                    game.isPlayed = false;
-                    gameView.hideGameInterface();
-                    gameView.showMenu();
-                }
-            } else {
-                game.roundsNumber -= 1;
-                gameView.displayRoundsCounter(game.roundsNumber);
-                state = 'incorrectLetter';
-                checkResult();
-            };
-            gameView.displayCheckedLetters(letter);
-            game.checked.push(letter);
-        };
+
+        // check letter
+        const state = checkLetter(letter);
+
+        // check if game ends
+        const result = checkIfEnd();
+
+        // display messages
         gameView.displayMessage(state, letter);
+        gameView.displayResult(result);
     };
 });
 
 checkWordButton.addEventListener('click', e => {
     e.preventDefault();
-    let state = 'wrongLength';
+
+    // get input word
     const word = gameView.getWord().toUpperCase();
+
+    // chceck if input is a word
     if(word !=='') {
+
+        // clear input
         gameView.clearInputs();
-        if(word.length === game.hiddenWord.length) {
-            if(word === game.hiddenWord) {
-                gameView.displayCorrectWord(game.hiddenWord);
-                game.isPlayed = false;
-                gameView.hideGameInterface();
-                gameView.showMenu();
-                state = 'correctWord';
-                gameView.displayResult('won');
-            } else {
-                game.roundsNumber -= 1;
-                gameView.displayRoundsCounter(game.roundsNumber);
-                state = 'incorrectWord';
-                checkResult();
-            };
-        };
+
+        // check word
+        const state = checkWord(word);
+
+        // check if game ends
+        const result = checkIfEnd();
+        
+        //display messages
         gameView.displayMessage(state, word);
+        gameView.displayResult(result);
     };
 });

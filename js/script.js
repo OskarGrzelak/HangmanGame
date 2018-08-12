@@ -15,6 +15,7 @@ const box = document.querySelector('.box');
 const checked = document.querySelector('.checked');
 const guessWord = document.querySelector('.guess-word');
 const result = document.querySelector('.result');
+const loader = document.querySelector('.loader');
 
 // game
 
@@ -52,7 +53,10 @@ const gameView = {
             };
             const res = await fetch(`https://cors-anywhere.herokuapp.com/https://api.datamuse.com/words?sp=${mask}`);
             const words = await res.json();
-            const hiddenWord = words[Math.floor(Math.random()*100)].word;
+            let hiddenWord;
+            do {
+                hiddenWord = words[Math.floor(Math.random()*100)].word;
+            } while(hiddenWord.includes('-') || hiddenWord.includes(' '));
             return hiddenWord;
         } catch(err) {
             console.log(err);
@@ -127,7 +131,11 @@ const gameView = {
             result.innerHTML = `<p class="result__text result__text--green">Congrats, you won!</p>`;
             result.classList.add('show');
         } else if (str === 'lost') {
-            result.innerHTML = `<p class="result__text result__text--red">Sorry, you lost!</p>`;
+            result.innerHTML = `
+                <p class="result__text result__text--red">Sorry, you lost!</p>
+                <p class="result__text result__text--small">The hidden word was</p>
+                <p class="result__text result__text--small result__text--red">${game.hiddenWord}</p>
+            `;
             result.classList.add('show');
         };
     },
@@ -153,7 +161,9 @@ const gameView = {
         box.classList.remove('show');
         checked.classList.remove('show');
         guessWord.classList.remove('show');
-    }
+    },
+    showLoader() { loader.classList.add('show'); },
+    hideLoader() { loader.classList.remove('show'); }
 };
 
 // control
@@ -168,21 +178,20 @@ const game = new Game();
 
 const initGame = async () => {
 
+    // Clearing UI
+    gameView.clearMessage();
+    gameView.clearCheckedLetters();
+    gameView.clearLettersDisplay();
+    result.classList.remove('show');
+    gameView.showLoader();
+
     // Setting game's parameters
     game.setRoundsNumber(gameView.getRoundsNumber());
     game.setWordsLength(gameView.getWordsLength());
     game.setHiddenWord(await gameView.getHiddenWord(game.wordsLength));
 
-    // Preparing UI 
-    
-    // 1. clearing UI
-    gameView.clearInputs();
-    gameView.clearMessage();
-    gameView.clearCheckedLetters();
-    gameView.clearLettersDisplay();
-    result.classList.remove('show');
-
-    // 2. displaying new UI
+    // Displaying new UI
+    gameView.hideLoader();
     gameView.displayHiddenWord(game.hiddenWord);
     gameView.displayRoundsCounter(game.roundsNumber);
     gameView.showGameInterface();

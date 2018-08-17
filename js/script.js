@@ -1,6 +1,7 @@
 // elements
 
 const triggerButton = document.querySelector('.trigger__btn');
+const valueButtons = document.querySelectorAll('.btn--input');
 const menu = document.querySelector('.menu');
 const startButton = document.querySelector('.btn--menu');
 const trigger = document.querySelector('.trigger');
@@ -41,8 +42,8 @@ class Game {
 // game view
 
 const gameView = {
-    getWordsLength() { return document.querySelector('#letters-number').value; },
-    getRoundsNumber() { return document.querySelector('#rounds-number').value; },
+    getWordsLength() { return document.querySelector('#word-length-input').textContent; },
+    getRoundsNumber() { return document.querySelector('#round-number-input').textContent; },
     getLetter() { return document.querySelector('#guess-letter').value; },
     getWord() { return document.querySelector('#guess-word').value; },
     async getHiddenWord(q) {
@@ -171,6 +172,17 @@ const gameView = {
 // menu
 
 triggerButton.addEventListener('click', () => !menu.classList.contains('menu__hidden') ? gameView.hideMenu() : gameView.showMenu());
+valueButtons.forEach(el => el.addEventListener('click', e => {
+    if (e.target.classList.contains('plus')) {
+        if (e.target.parentNode.children[0].textContent < 12) {
+            e.target.parentNode.children[0].textContent++;
+        };
+    } else if (e.target.classList.contains('minus')) {
+        if (e.target.parentNode.children[0].textContent > 3) {
+            e.target.parentNode.children[0].textContent--;
+        };
+    };
+}));
 
 // game
 
@@ -302,3 +314,11 @@ checkWordButton.addEventListener('click', e => {
         gameView.displayResult(result);
     };
 });
+
+// check if user type letters in input fields
+
+inputs.forEach(el => el.addEventListener('keydown', e => {
+    if(!((e.keyCode >= 65 && e.keyCode <= 90) || e.keyCode === 8 || e.keyCode === 13)) {
+        e.preventDefault();
+    };
+}));

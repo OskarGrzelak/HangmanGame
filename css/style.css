@@ -32,7 +32,7 @@ body {
 }
 
 .menu {
-    height: 6rem;
+    height: 10rem;
     opacity: 1;
     text-align: center;
     margin-bottom: 1rem;
@@ -53,7 +53,7 @@ body {
 }
 
 .menu__group:not(:last-child) {
-    margin-right: 3rem;
+    margin-right: 2rem;
 }
 
 .menu__input {
@@ -119,6 +119,21 @@ body {
 
 .btn--letter {
     font-size: 2.5rem;
+}
+
+.btn--input {
+    display: inline-block;
+    cursor: default;
+    height: 2.5rem;
+    width: 2.5rem;
+    border: 1px solid #555;
+    border-radius: 50%;
+    transition: all .2s;
+}
+
+.btn--input:hover {
+    color: #83a4d4;
+    border: 1px solid #83a4d4;
 }
 
 .box {
@@ -255,7 +270,7 @@ body {
     font-size: 2.5rem;
 }
 
-#rounds-counter {
+.value {
     font-weight: 600;
     font-size: 3.5rem;
     color: #83a4d4;

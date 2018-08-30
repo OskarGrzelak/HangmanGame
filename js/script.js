@@ -174,12 +174,12 @@ const gameView = {
 triggerButton.addEventListener('click', () => !menu.classList.contains('menu__hidden') ? gameView.hideMenu() : gameView.showMenu());
 valueButtons.forEach(el => el.addEventListener('click', e => {
     if (e.target.classList.contains('plus')) {
-        if (e.target.parentNode.children[0].textContent < 12) {
-            e.target.parentNode.children[0].textContent++;
+        if (e.target.parentNode.children[1].textContent < 12) {
+            e.target.parentNode.children[1].textContent++;
         };
     } else if (e.target.classList.contains('minus')) {
-        if (e.target.parentNode.children[0].textContent > 3) {
-            e.target.parentNode.children[0].textContent--;
+        if (e.target.parentNode.children[1].textContent > 3) {
+            e.target.parentNode.children[1].textContent--;
         };
     };
 }));

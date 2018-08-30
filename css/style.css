@@ -20,15 +20,13 @@ body {
 }
 
 .container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin: 4rem auto;
     width: 80rem;
-    height: 70rem;
+    height: auto;
     background-color: #fff;
     border-radius: 6px;
     padding: 0 3rem;
+    position: relative;
 }
 
 .menu {
@@ -122,18 +120,14 @@ body {
 }
 
 .btn--input {
-    display: inline-block;
     cursor: default;
-    height: 2.5rem;
-    width: 2.5rem;
-    border: 1px solid #555;
-    border-radius: 50%;
+    font-size: 3rem;
+    font-weight: 700;
     transition: all .2s;
 }
 
 .btn--input:hover {
     color: #83a4d4;
-    border: 1px solid #83a4d4;
 }
 
 .box {
@@ -269,9 +263,12 @@ body {
 }
 
 .value {
+    display: inline-block;
     font-weight: 600;
     font-size: 3.5rem;
     color: #83a4d4;
+    padding: 0 .8rem;
+    width: 5rem;
 }
 
 .guess-letter {
@@ -335,17 +332,12 @@ body {
 }
 
 .footer {
-    position: absolute;
     display: block;
-    bottom: 0;
-    left: 0;
-    height: auto;
-    width: 100%;
     text-align: right;
 }
 
 .footer p {
-    margin: 1rem 3rem;
+    padding-bottom: 2rem;
     font-size: 1.2rem;
 }
 
@@ -373,7 +365,7 @@ body {
     letter-spacing: .2rem;
 }
 
-/* Media queires */
+/* Media queries */
 
 @media only screen and (max-width: 900px) {
     html {
@@ -384,7 +376,7 @@ body {
 @media only screen and (max-width: 640px) {
     .container {
         width: 100%;
-        height: 80rem;
+        margin: 0;
     }
 
     .menu {
@@ -440,6 +432,7 @@ body {
     
     .message__letter {
         font-size: 2.5rem;
+        transform: translateY(.2rem);
     }
 
     .letters-display__letter {
@@ -472,13 +465,17 @@ body {
 
     .container {
         padding: 0 1rem;
-        height: 100vh;
     }
 
     .btn--menu {
         display: block;
         position: initial;
         margin-top: 1rem;
+    }
+
+    .message__letter {
+        font-size: 1.8rem;
+        transform: translateY(0);
     }
 
     .letters-display__letter {
